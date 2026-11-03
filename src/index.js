@@ -1,0 +1,11 @@
+const html = `<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>LPDM | 생명살림 디지털추모관</title><meta name="description" content="한 사람의 삶이 하나의 역사입니다. LPDM 생명살림 디지털추모관"><style>
+:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#f4f0e7;color:#19352f;font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif}header{padding:24px max(24px,calc((100vw - 1000px)/2));display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ddd4c2}.logo{font-weight:800;letter-spacing:.13em;font-size:22px}main{max-width:1000px;margin:auto;padding:84px 24px 110px}.eyebrow{font-size:13px;letter-spacing:.18em;color:#738078;font-weight:700}h1{font-size:clamp(32px,6vw,58px);line-height:1.24;margin:22px 0}p{line-height:1.9;color:#4b6054}.lead{font-size:18px}.panel{margin-top:60px;border:1px solid #d9d3c4;border-radius:18px;padding:30px;background:#fffdf8}.tag{color:#8b7847;font-size:12px;font-weight:700;letter-spacing:.1em}h2{margin:12px 0}.status{display:inline-block;margin-top:16px;padding:9px 15px;background:#e7ede5;border-radius:50px;font-size:13px}footer{padding:28px;text-align:center;color:#718176;font-size:12px}@media(max-width:600px){main{padding:58px 22px 80px}.panel{padding:22px}}</style></head><body><header><div class="logo">LPDM</div><span>생명살림 디지털추모관</span></header><main><div class="eyebrow">LIFE PRESERVATION DIGITAL MEMORIAL HALL</div><h1>한 사람의 삶이<br>하나의 역사입니다.</h1><p class="lead">삶을 기억하고, 생명을 존중하며,<br>그 정신을 미래로 이어갑니다.</p><section class="panel"><div class="tag">MEMORIAL NO. 001</div><h2>금송 양홍관 선생 디지털추모관</h2><p>생명·평화·협동·자치의 가치를 기억하는 첫 번째 기념관을 준비하고 있습니다.</p><div class="status">자료 확인 및 기념관 준비 중</div></section></main><footer>LPDM · Life Preservation Digital Memorial Hall</footer></body></html>`;
+export default {
+ async fetch(request) {
+  const url = new URL(request.url);
+  if (url.pathname === "/health") return Response.json({status:"ok",service:"lpdm-web"});
+  if (url.pathname !== "/") return new Response("페이지를 찾을 수 없습니다.", {status:404,headers:{"content-type":"text/plain; charset=utf-8"}});
+  return new Response(html,{headers:{"content-type":"text/html; charset=utf-8","x-content-type-options":"nosniff","cache-control":"public, max-age=300"}});
+ }
+};
