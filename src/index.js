@@ -107,7 +107,7 @@ function lpdmV2Page(g,item,map=false,browse=false){
  const esc=lpdmV2Escape;
  const title=browse?"추모관 둘러보기":map?"사이트 안내":!g?"생명살림 디지털추모관":item?item[1]:g[1];
  const desc=browse?"성명과 한글 초성으로 고인을 찾는 추모관 목록입니다.":map?"V2.0 사이트 목차 안내":!g?"한 사람의 삶이 하나의 역사입니다. 그 삶의 온기와 기억을 이어갑니다.":item?item[1]+"의 기록과 전시를 살펴봅니다.":g[2];
- const nav=lpdmV2.map(x=>'<div class="menu"><a href="/'+x[0]+'">'+esc(x[1])+(x[3].length?' ▾':'')+'</a>'+(x[3].length?'<div class="drop">'+(x[0]==="fragrance"?'<a href="/fragrance/browse">추모관 둘러보기</a>':"")+x[3].map(y=>'<a href="/'+x[0]+'/'+y[0]+'">'+esc(y[1])+'</a>').join("")+'</div>':"")+'</div>').join("");
+ const nav=lpdmV2.map(x=>'<div class="menu"><a href="/'+x[0]+'">'+esc(x[1])+(x[3].length?' ▾':'')+'</a>'+(x[3].length?'<div class="drop">'+(x[0]==="fragrance"?'<a href="/fragrance/browse">추모관 둘러보기</a>':x[3].map(y=>'<a href="/'+x[0]+'/'+y[0]+'">'+esc(y[1])+'</a>').join(""))+'</div>':"")+'</div>').join("");
  const card=(x,index,parent)=>'<a class="card" href="/'+parent+'/'+x[0]+'"><span class="number">0'+(index+1)+'</span><h3>'+esc(x[1])+'</h3><p>'+esc(x[2]&&typeof x[2]==="string"?x[2]:"삶의 기록을 살펴보는 공간")+'</p><span class="more">자세히 보기 →</span></a>';
  let body="";
  if(map){
@@ -117,7 +117,8 @@ function lpdmV2Page(g,item,map=false,browse=false){
  }else {
    const tabs=g[3].length?'<nav class="subnav" aria-label="중분류 메뉴"><div class="wrap"><a href="/'+g[0]+'"'+(!item?' class="active"':'')+'>전체 보기</a>'+g[3].map(i=>'<a href="/'+g[0]+'/'+i[0]+'"'+(item&&item[0]===i[0]?' class="active"':'')+'>'+esc(i[1])+'</a>').join("")+'</div></nav>':"";
    if(browse&&g[0]==="fragrance")body=memorialDirectory();
-   else if(!item&&g[3].length)body=(g[0]==="fragrance"?"":tabs)+'<section class="section"><div class="wrap"><h2>'+esc(g[1])+' 전체보기</h2><p class="lead">'+esc(g[2])+'</p><div class="grid">'+g[3].map((i,j)=>card(i,j,g[0])).join("")+'</div>'+(g[0]==="fragrance"?'<p><a class="btn" href="/fragrance/browse">고인 이름으로 추모관 검색하기 →</a></p>':"")+'</div></section>';
+   else if(!item&&g[0]==="fragrance")body=memorialDirectory();
+   else if(!item&&g[3].length)body=tabs+'<section class="section"><div class="wrap"><h2>'+esc(g[1])+' 전체보기</h2><p class="lead">'+esc(g[2])+'</p><div class="grid">'+g[3].map((i,j)=>card(i,j,g[0])).join("")+'</div>'+(g[0]==="fragrance"?'<p><a class="btn" href="/fragrance/browse">고인 이름으로 추모관 검색하기 →</a></p>':"")+'</div></section>';
    else if(item){
     body=tabs+'<section class="section"><div class="wrap"><h2>'+esc(item[1])+'</h2><p class="lead">'+esc(g[2])+'</p><div class="detail-grid">'+item[2].map((d,i)=>'<article class="detail"><span class="number">0'+(i+1)+'</span><h3>'+esc(d[0])+'</h3><p>'+esc(d[1])+'</p><div class="pending">자료 확인 및 공개 준비 중</div></article>').join("")+'</div><div class="notice">현재 자료 검수와 공개 권한 확인 단계입니다. 온라인 헌화·방명록·자료 제출 및 후원금 결제는 아직 운영하지 않습니다.</div>'+(g[0]==="fragrance"?'<p><a class="btn" href="/fragrance/browse">추모관 둘러보기 · 이름 검색 →</a></p>':"")+'</div></section>';
    }else body='<section class="section"><div class="wrap"><h2>자유게시판</h2><p class="lead">생각과 기억을 나누는 공간을 준비하고 있습니다.</p><div class="notice">글쓰기·댓글 기능은 아직 운영되지 않습니다. 관리자 승인 및 개인정보 보호 기능이 마련된 뒤 공개합니다.</div></div></section>';
