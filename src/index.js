@@ -34,7 +34,8 @@ function memorialPage(slug) {
 const htmlResponse = (body) => new Response(body,{headers:{"content-type":"text/html; charset=utf-8","x-content-type-options":"nosniff","cache-control":"public, max-age=300"}});
 export default {
   async fetch(request) {
-    const pathname = new URL(request.url).pathname.replace(/\\/$/,"") || "/";
+    const rawPath = new URL(request.url).pathname;
+    const pathname = rawPath.length > 1 && rawPath.endsWith("/") ? rawPath.slice(0,-1) : rawPath;
     if(pathname === "/health") return Response.json({status:"ok",service:"lpdm-web"});
     if(pathname === "/") return htmlResponse(html);
     if(pathname === memorialBase) return htmlResponse(memorialPage(""));
