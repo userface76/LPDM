@@ -183,8 +183,10 @@ function ssdmFeaturedMemorial(){
 
 function lpdmV2Page(g,item,map=false,browse=false,fragranceChildSlug='',eventChildSlug=''){
  const esc=lpdmV2Escape;
- const title=browse?"추모관 둘러보기":map?"사이트 안내":!g?"생명살림 디지털 추모관":item?item[1]:g[1];
- const desc=browse?"성명과 한글 초성으로 고인을 찾는 추모관 목록입니다.":map?"추모관, 행사관, SSDM 소개의 전체 페이지를 한눈에 살펴보세요.":!g?"한 사람의 삶이 하나의 역사입니다. 그 삶의 온기와 기억을 이어갑니다.":item?item[1]+"의 기록과 전시를 살펴봅니다.":g[2];
+ const eventPageCategory=g&&g[0]==="events"&&item?ssdmEventSections.find(x=>x.slug===item[0]):null;
+ const eventPageLeaf=eventPageCategory&&eventChildSlug?eventPageCategory.children.find(x=>x.slug===eventChildSlug):null;
+ const title=browse?"추모관 둘러보기":map?"사이트 안내":!g?"생명살림 디지털 추모관":eventPageLeaf?eventPageLeaf.title:item?item[1]:g[1];
+ const desc=browse?"성명과 한글 초성으로 고인을 찾는 추모관 목록입니다.":map?"추모관, 행사관, SSDM 소개의 전체 페이지를 한눈에 살펴보세요.":!g?"한 사람의 삶이 하나의 역사입니다. 그 삶의 온기와 기억을 이어갑니다.":eventPageLeaf?eventPageLeaf.summary:item?item[1]+"의 기록과 전시를 살펴봅니다.":g[2];
  const nav=lpdmV2.map(x=>{
   const cascade=x[0]==="fragrance"||x[0]==="events";
   const dropContent=x[0]==="fragrance"
@@ -237,9 +239,6 @@ function lpdmV2Page(g,item,map=false,browse=false,fragranceChildSlug='',eventChi
     }
    }
    else if(!item&&g[3].length)body=tabs+'<section class="section"><div class="wrap"><h2>'+esc(g[1])+' 전체보기</h2><p class="lead">'+esc(g[2])+'</p><div class="grid">'+g[3].map((i,j)=>card(i,j,g[0])).join("")+'</div>'+(g[0]==="fragrance"?'<p><a class="btn" href="/fragrance/browse">고인 이름으로 추모관 검색하기 →</a></p>':"")+'</div></section>';
-   else if(item&&g[0]==="events"&&item[0]==="awards"){
-    body=tabs+'<section class="section ssdm-awards-section"><div class="wrap"><div class="ssdm-awards-intro"><span class="ssdm-awards-eyebrow">LIFE · PEACE · COMMUNITY</span><h2>삶을 살리고, 가치를 잇는 사람들</h2><p class="lead">생명살림의 철학을 일상에서 실천해 온 이웃과 단체의 이야기를 발굴하고, 그 발자취를 함께 기억합니다.</p></div><div class="ssdm-awards-grid">'+item[2].map((d,i)=>'<article class="ssdm-awards-card"><span class="ssdm-awards-number">'+String(i+1).padStart(2,"0")+'</span><span class="ssdm-awards-symbol" aria-hidden="true">'+["✦","♡","❀"][i]+'</span><h3>'+esc(d[0])+'</h3><p>'+esc(d[1])+'</p><span class="ssdm-awards-state">공식 자료 확인 및 공개 준비 중</span></article>').join("")+'</div><div class="ssdm-awards-notice"><strong>운영 안내</strong><p>현재 시상식 개최 일정, 추천 접수와 선정 기준은 확정·공지되지 않았습니다. 추후 공식 발표와 관련 자료의 공개 승인이 완료되면 이곳에 안내합니다.</p></div></div></section>';
-   }
    else if(item){
     body=tabs+'<section class="section"><div class="wrap"><h2>'+esc(item[1])+'</h2><p class="lead">'+esc(g[2])+'</p><div class="detail-grid">'+item[2].map((d,i)=>'<article class="detail"><span class="number">0'+(i+1)+'</span><h3>'+esc(d[0])+'</h3><p>'+esc(d[1])+'</p><div class="pending">자료 확인 및 공개 준비 중</div></article>').join("")+'</div><div class="notice">현재 자료 검수와 공개 권한 확인 단계입니다. 온라인 헌화·방명록·자료 제출 및 후원금 결제는 아직 운영하지 않습니다.</div>'+(g[0]==="fragrance"?'<p><a class="btn" href="/fragrance/browse">추모관 둘러보기 · 이름 검색 →</a></p>':"")+'</div></section>';
    }else body='<section class="section"><div class="wrap"><h2>자유게시판</h2><p class="lead">생각과 기억을 나누는 공간을 준비하고 있습니다.</p><div class="notice">글쓰기·댓글 기능은 아직 운영되지 않습니다. 관리자 승인 및 개인정보 보호 기능이 마련된 뒤 공개합니다.</div></div></section>';
