@@ -71,7 +71,7 @@ body{background:#f0eee6}
 .note{font-size:14px;line-height:1.9}
 @media(max-width:650px){.hero{padding:58px 0 62px}.nav .wrap{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto}.nav a{font-size:14px}.main{padding:45px 0 80px}.section-card{min-height:unset}.memorial-preface{padding:26px 8px}}
 .ssdm-brand-image{display:block;width:auto;height:auto;max-height:64px;max-width:295px;object-fit:contain}@media(max-width:650px){.ssdm-brand-image{max-height:48px;max-width:min(260px,75vw)}}
-.hero.memorial-home-hero>.memorial-home-banner{display:none;width:100%;height:auto;max-width:100%;object-fit:contain;margin:0;border:0}
+.hero.memorial-home-hero>.memorial-home-banner{display:none;width:100%;height:auto;max-width:1200px;object-fit:contain;margin:0 auto;border:0}
 .hero.memorial-home-hero.memorial-banner-ready{padding:0;background:#e2e0d8;line-height:0}
 .hero.memorial-home-hero.memorial-banner-ready>.memorial-home-banner{display:block}
 .hero.memorial-home-hero.memorial-banner-ready>.wrap{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
